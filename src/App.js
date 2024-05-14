@@ -14,7 +14,7 @@ import Header from "./Components/Header";
 import Auth from './Pages/Auth';
 import { auth } from './firebase';
 import { signOut } from 'firebase/auth';
-// import TagBlog from "./pages/TagBlog";
+import TagBlog from "./pages/TagBlog";
 // import CategoryBlog from "./pages/CategoryBlog";
 // import ScrollToTop from "./components/ScrollToTop";
 // import Blogs from "./pages/Blogs";
