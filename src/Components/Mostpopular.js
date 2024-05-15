@@ -28,6 +28,3 @@ const Mostpopular = ({blogs}) => {
 }
 
 export default Mostpopular
-// 9916518340
-// shbaz begum
-// 1500
