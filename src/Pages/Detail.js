@@ -1,5 +1,15 @@
-
-import {collection,doc,getDoc,getDocs,limit,query,serverTimestamp,Timestamp,updateDoc,orderBy, where,
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  query,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+  orderBy,
+  where,
 } from "firebase/firestore";
 import { isEmpty } from "lodash";
 import React, { useState, useEffect } from "react";
@@ -42,7 +52,9 @@ const Detail = ({ setActive, user }) => {
   }, []);
 
   useEffect(() => {
-    id && getBlogDetail();
+    if (id) {
+      getBlogDetail();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -55,24 +67,36 @@ const Detail = ({ setActive, user }) => {
     const blogRef = collection(db, "blogs");
     const docRef = doc(db, "blogs", id);
     const blogDetail = await getDoc(docRef);
-    const blogs = await getDocs(blogRef);
-    let tags = [];
-    blogs.docs.map((doc) => tags.push(...doc.get("tags")));
-    let uniqueTags = [...new Set(tags)];
-    setTags(uniqueTags);
-    setBlog(blogDetail.data());
-    const relatedBlogsQuery = query(
-      blogRef,
-      where("tags", "array-contains-any", blogDetail.data().tags, limit(3))
-    );
-    setComments(blogDetail.data().comments ? blogDetail.data().comments : []);
-    setLikes(blogDetail.data().likes ? blogDetail.data().likes : []);
-    const relatedBlogSnapshot = await getDocs(relatedBlogsQuery);
-    const relatedBlogs = [];
-    relatedBlogSnapshot.forEach((doc) => {
-      relatedBlogs.push({ id: doc.id, ...doc.data() });
-    });
-    setRelatedBlogs(relatedBlogs);
+
+    if (blogDetail.exists()) {
+      const blogData = blogDetail.data();
+      setBlog(blogData);
+
+      const blogsSnapshot = await getDocs(blogRef);
+      let tags = [];
+      blogsSnapshot.docs.forEach((doc) => tags.push(...doc.get("tags")));
+      let uniqueTags = [...new Set(tags)];
+      setTags(uniqueTags);
+
+      if (blogData.tags && blogData.tags.length > 0) {
+        const relatedBlogsQuery = query(
+          blogRef,
+          where("tags", "array-contains-any", blogData.tags),
+          limit(3)
+        );
+
+        const relatedBlogSnapshot = await getDocs(relatedBlogsQuery);
+        const relatedBlogs = [];
+        relatedBlogSnapshot.forEach((doc) => {
+          relatedBlogs.push({ id: doc.id, ...doc.data() });
+        });
+        setRelatedBlogs(relatedBlogs);
+      }
+
+      setComments(blogData.comments ? blogData.comments : []);
+      setLikes(blogData.likes ? blogData.likes : []);
+    }
+
     setActive(null);
     setLoading(false);
   };
@@ -154,7 +178,7 @@ const Detail = ({ setActive, user }) => {
                   ) : (
                     <>
                       {comments?.map((comment) => (
-                        <UserComments {...comment} />
+                        <UserComments key={comment.createdAt.toMillis()} {...comment} />
                       ))}
                     </>
                   )}

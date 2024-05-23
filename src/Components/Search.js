@@ -26,9 +26,11 @@ const Search = ({ search, handleChange }) => {
             onChange={handleChange}
           />
         </div>
-        <button className="btn btn-secondary search-btn">
-          <i className="fa fa-search" />
-        </button>
+        <div className="col-12 py-3">
+          <button type="submit" className="btn btn-secondary search-btn">
+            <i className="fa fa-search" />
+          </button>
+        </div>
       </form>
     </div>
   );

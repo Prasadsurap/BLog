@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { excerpt } from "../Utility";
 
-const Card = ({ title, Content, imgUrl, id, likes, comments }) => {
+const Card = ({ title, description, imgUrl, id, likes, comments }) => {
   return (
     <div className="col-sm-6 col-lg-4 mb-5">
       <div className="related-content card text-decoration-none overflow-hidden h-100">
@@ -11,7 +11,7 @@ const Card = ({ title, Content, imgUrl, id, likes, comments }) => {
         <div className="related-body card-body p-4">
           <h5 className="title text-start py-2">{title}</h5>
           <p className="short-description text-start">
-            {excerpt(Content, 25)}
+            {excerpt(description, 25)}
           </p>
           <div className="d-flex justify-content-between">
             <Link to={`/detail/${id}`} style={{ textDecoration: "none" }}>
