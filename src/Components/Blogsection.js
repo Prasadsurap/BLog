@@ -56,7 +56,9 @@ const BlogSection = ({
                   style={{ cursor: "pointer" }}
                   size="2x"
                 />
+              
               </Link>
+
             </div>
           )}
         </div>

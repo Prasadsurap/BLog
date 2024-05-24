@@ -18,6 +18,7 @@ import TagBlog from "./Pages/TagBlog";
 import CategoryBlog from "./Pages/CategoryBlog";
 import ScrollToTop from "./Components/ScrollToTop";
 import Blogs from "./Pages/Blogs";
+import Footer from './Components/Footer';
 
 
 
@@ -55,6 +56,7 @@ function App() {
       />
       <ScrollToTop />
       <ToastContainer position="top-center" />
+      
       <Routes>
         <Route
           path="/"
@@ -93,7 +95,11 @@ function App() {
           element={<Auth setActive={setActive} setUser={setUser} />}
         />
         <Route path="*" element={<Notfound />} />
+        
       </Routes>
+      <Footer>
+        
+      </Footer>
     </div>
   );
 }
