@@ -114,6 +114,9 @@ const AddEditBlog = ({ user, setActive }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (category && tags && title && description && trending) {
+      if (description.length<300) {
+          toast.error("Blog created successfully");
+      }
       if (!id) {
         try {
           await addDoc(collection(db, "blogs"), {
@@ -221,6 +224,7 @@ const AddEditBlog = ({ user, setActive }) => {
                   placeholder="Description"
                   value={description}
                   name="description"
+                  minLength={300}
                   onChange={handleChange}
                 />
               </div>
