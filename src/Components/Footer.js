@@ -37,7 +37,7 @@ const Footer = () => {
  
             <ul className="contact">
                 <li>
-                 <a href="#" class="fa fa-twitter">
+                 <a href="https://twitter.com/login" class="fa fa-twitter">
 
                   </a>
                     

@@ -1,3 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+
 $yellow: #f5bc04;
 
 @mixin border-radius($radius) {
@@ -1049,26 +1061,30 @@ form
 //footer
 
 .company-details {
-    overflow: hidden;
-    padding: 1px 0px;
     background: #E3F0F7;
-    text-align: center;
-    margin-top: 5em;
-}
 
-#footer #col1,
-#footer #col2,
-#footer #col3 {
-    float: left;
-    width: 420px;
-    padding: 0px 40px 0px 40px;
-}
+        overflow: hidden;
+        padding: 1px 0px;
+        text-align: center;
+        margin-top: 5em;
+ }
+
+
+ #footer #col1,
+ #footer #col2,
+ #footer #col3 {
+     float: left;
+     width: 480px;
+     padding: 0px 40px 0px 40px;
+ }
 
 #footer #icon {
     display: block;
     margin-bottom: 1em;
     font-size: 1.5em;
 }
+
+
 
 /*** Adding Styles to Copyright Div ***/
 .copyright {
@@ -1089,6 +1105,10 @@ form
     text-decoration: none;
     color: rgba(255, 255, 255, 0.8);
 }
+
+
+
+
 
 /* Styling Social Icons */
 ul.contact {
@@ -1112,3 +1132,9 @@ ul.contact li a {
     line-height: 40px;
     text-align: center;
 }
+
+
+.icon-spacing {
+    margin-right: 15px; /* Adjust the spacing as needed */
+  }
+  
