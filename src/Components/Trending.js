@@ -1,71 +1,74 @@
-// import React from 'react'
-// import Owlcarousel from 'react-owl-carousel'
-// import {Link} from 'react-router-dom'
+
+// import React from "react";
+// import OwlCarousel from "react-owl-carousel";
+// import { Link } from "react-router-dom";
 // import "owl.carousel/dist/assets/owl.carousel.css";
 // import "owl.carousel/dist/assets/owl.theme.default.css";
-// const Trending = ({blogs}) => {
-//     const options={
-//         loop:true,
-//         margin:10,
-//         nev:true,   
-//         responsive:{
-//             0:{
-//                 items:1
-//             },
-//           400:{
-//             items:2
-//           } , 
-//           600:{
-//             items:3
-//           }, 
-//            1000:{
-//             items:4
-//           }  
-//         }
-//     }
+
+// const Trending = ({ blogs }) => {
+//   const options = {
+//     loop: true,
+//     margin: 10,
+//     nav: true,
+//     responsive: {
+//       0: {
+//         items: 1,
+//       },
+//       400: {
+//         items: 2,
+//       },
+//       600: {
+//         items: 3,
+//       },
+//       1000: {
+//         items: 4,
+//       },
+//     },
+//   };
 //   return (
 //     <>
-//     <div>
-//       <div className="blog-heading text-start py-2 mb-4">Trending  </div>
-//     </div>
-//     <Owlcarousel className='oel-theme'{...options} >
-//         {blogs?.map((item)=>(
-//             <div className="item px-2" key={item.id}>
-//                     <Link to={`/detail/${item.id}`}>
-//                         <div className="trending-image-position">
-//                             <div className="trending-image-size">
-//                                 <img src={item.imgurl} alt={item.title} className="trending-img-relative" />
-//                    </div>
-//                             <div className="trending-ima-absolute">
-
-//                </div>
-//            <div className="trending-ima-absolute-1">
-//                                 <span className="text-white">
-//                                         {item.title}
-//                                 </span>
-//                                 <div className="trending-meta-info">
-//                     {item.author} -{item.timestamp.toDate().toDateString()}
-//                                 </div>
-//                      </div>
-//                         </div>
-
-//                     </Link>
-//             </div>    
-//             ))}
-//         </Owlcarousel>
+//       <div>
+//         <div className="blog-heading text-start py-2 mb-4">Trending</div>
+//       </div>
+//       <OwlCarousel className="owl-theme" {...options}>
+//         {blogs?.map((item) => (
+//           <div className="item px-2" key={item.id}>
+//             <Link to={`/detail/${item.id}`}>
+//               <div className="trending-img-position">
+//                 <div className="trending-img-size">
+//                   <img
+//                     src={item.imgUrl}
+//                     alt={item.title}
+//                     className="trending-img-relative"
+//                   />
+//                 </div>
+//                 <div className="trending-img-absolute"></div>
+//                 <div className="trending-img-absolute-1">
+//                   <span className="text-white">{item.title}</span>
+//                   <div className="trending-meta-info">
+//                     {item.author} - {item.timestamp.toDate().toDateString()}
+//                   </div>
+//                 </div>
+//               </div>
+//             </Link>
+//           </div>
+//         ))}
+//       </OwlCarousel>
 //     </>
-//   )
-// }
+//   );
+// };
 
-// export default Trending
+// export default Trending;
 
 import React from "react";
 import OwlCarousel from "react-owl-carousel";
 import { Link } from "react-router-dom";
+import { doc, updateDoc, increment, arrayUnion, getDoc } from "firebase/firestore";
+import { db } from "../firebase"; // Ensure the firebase file path is correct
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 
-const Trending = ({ blogs }) => {
+const Trending = ({ blogs, user }) => {
   const options = {
     loop: true,
     margin: 10,
@@ -85,6 +88,23 @@ const Trending = ({ blogs }) => {
       },
     },
   };
+
+  const handleViewCount = async (id) => {
+    if (!user) return; // Ensure a user is logged in to count views
+
+    const docRef = doc(db, "blogs", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (!data.viewedBy || !data.viewedBy.includes(user.uid)) {
+        await updateDoc(docRef, {
+          views: increment(1),
+          viewedBy: arrayUnion(user.uid),
+        });
+      }
+    }
+  };
+
   return (
     <>
       <div>
@@ -93,7 +113,7 @@ const Trending = ({ blogs }) => {
       <OwlCarousel className="owl-theme" {...options}>
         {blogs?.map((item) => (
           <div className="item px-2" key={item.id}>
-            <Link to={`/detail/${item.id}`}>
+            <Link to={`/detail/${item.id}`} onClick={() => handleViewCount(item.id)}>
               <div className="trending-img-position">
                 <div className="trending-img-size">
                   <img
@@ -119,3 +139,5 @@ const Trending = ({ blogs }) => {
 };
 
 export default Trending;
+
+

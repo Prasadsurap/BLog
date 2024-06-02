@@ -31,6 +31,7 @@ const Auth = ({setActive,setUser}) => {
           const {user}=await signInWithEmailAndPassword(auth,email,password)
           setActive("home");
           setUser(user);
+          navigate("/");
         } else {
           toast.error("Fill in all fields");
         }
@@ -42,6 +43,8 @@ const Auth = ({setActive,setUser}) => {
           await updateProfile(user,{displayName:`${firstname} ${lastname}`});
           setActive("Home");
           setUser(user)
+          navigate("/");
+
         } else {
           toast.error("Fill in all fields");
         }
@@ -54,7 +57,6 @@ const Auth = ({setActive,setUser}) => {
         toast.error("Failed to sign in or sign up. Please try again.");
       }
     }
-    navigate("/");
   }
 
   return (

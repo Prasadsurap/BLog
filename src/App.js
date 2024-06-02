@@ -86,7 +86,7 @@ function App() {
             )
           }
         />
-        <Route path="/blogs" element={<Blogs setActive={setActive} />} />
+        <Route path="/blogs" element={<Blogs setActive={setActive}  user={user}/>} />
         <Route path="/tag/:tag" element={<TagBlog setActive={setActive} />} />
         <Route path="/category/:category" element={<CategoryBlog setActive={setActive}  />} />
         <Route path="/about" element={<About />} />
@@ -95,6 +95,10 @@ function App() {
           element={<Auth setActive={setActive} setUser={setUser} />}
         />
         <Route path="*" element={<Notfound />} />
+
+        <Route path="/" element={<Blogs user={user} setActive={() => {}} />} />
+        
+
         
       </Routes>
       <Footer>

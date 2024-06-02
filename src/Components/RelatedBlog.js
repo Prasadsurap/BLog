@@ -27,3 +27,4 @@ const RelatedBlog = ({ blogs, id }) => {
 };
 
 export default RelatedBlog;
+//section grid,responsive ai,no code animation,text mask

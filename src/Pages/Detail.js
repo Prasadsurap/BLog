@@ -10,6 +10,7 @@ import {
   updateDoc,
   orderBy,
   where,
+  increment,
 } from "firebase/firestore";
 import { isEmpty } from "lodash";
 import React, { useState, useEffect } from "react";
@@ -57,6 +58,20 @@ const Detail = ({ setActive, user }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    if (blog) {
+      handleViews();
+    }
+  }, [blog]);
+
+  const handleViews = async () => {
+    console.log("increasing count...");
+    const docRef = doc(db, "blogs", id);
+    await updateDoc(docRef, {
+      views: increment(1),
+    });
+  };
 
   if (loading) {
     return <Spinner />;

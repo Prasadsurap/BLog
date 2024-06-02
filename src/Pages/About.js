@@ -24,7 +24,7 @@ const About = () => {
       </iframe> */}
       <iframe 
         allowfullscreen="allowfullscreen" 
-        class="number4vid" 
+        className="number4vid" 
         poster="https://youtu.be/AMxtGWcMYd4?si=iK4k7QsnQosyjCVN" 
         src="https://www.youtube.com/embed/Ce-VGEfSEA4?si=5dxnbs1SiseVgSEZ">
       </iframe>

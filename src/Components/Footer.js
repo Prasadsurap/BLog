@@ -12,7 +12,7 @@ const Footer = () => {
                     <span id="icon" className="fa fa-map-marker"></span>
  
                     <span>
-                        Jainagar second block
+                        Jayanagar second block
                         <br />Cims, India
                     </span>
                 </div>
@@ -37,7 +37,7 @@ const Footer = () => {
  
             <ul className="contact">
                 <li>
-                 <a href="https://twitter.com/login" class="fa fa-twitter">
+                 <a href="https://twitter.com/login" className="fa fa-twitter">
 
                   </a>
                     
