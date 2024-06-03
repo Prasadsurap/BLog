@@ -1,22 +1,36 @@
+// import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+// import React,{useState} from 'react'
+// import { toast } from 'react-toastify';
+// import { auth } from '../firebase';
+// import {useNavigate} from 'react-router-dom'
+// import { doc, setDoc } from 'firebase/firestore';
+// import { db, auth } from '../firebase';
+
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import React,{useState} from 'react'
+import { doc, setDoc } from 'firebase/firestore';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { auth } from '../firebase';
-import {useNavigate} from 'react-router-dom'
+import { db } from '../firebase'; // Remove 'auth' from here
+import { auth } from '../firebase'; // Keep only 'db' here
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const initialstate = {
   firstname:"",
   lastname:"",
   email:"",
   password:"",
-  confirmpassword:""
+  confirmpassword:"",
+  profilePicURL: "" // Declare profilePicURL in the initial state
 };
 
 
 const Auth = ({setActive,setUser}) => {
   const [state,setState] = useState(initialstate);
   const[signUp,setsignUp]=useState(false);
-  const{email,password,firstname,lastname,confirmpassword}=state;
+  const{email,password,firstname,lastname,confirmpassword,profilePicURL}=state;
   const navigate=useNavigate();
 
   const handlechange =(e)=>{
@@ -58,6 +72,21 @@ const Auth = ({setActive,setUser}) => {
       }
     }
   }
+
+  const handleProfileUpdate = async (displayName, profilePicURL) => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        await updateProfile(user, { displayName });
+        const userDocRef = doc(db, 'users', user.uid);
+        await setDoc(userDocRef, { displayName, profilePicURL });
+        toast.success('Profile updated successfully');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error.message);
+      toast.error('Failed to update profile');
+    }
+  };
 
   return (
     <div className="container-fluid md-4">
@@ -147,6 +176,7 @@ const Auth = ({setActive,setUser}) => {
                   </div>
                 </>
               )}
+
             </div>
           </div>
         </div>

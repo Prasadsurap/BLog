@@ -66,11 +66,17 @@ const Detail = ({ setActive, user }) => {
   }, [blog]);
 
   const handleViews = async () => {
-    console.log("increasing count...");
-    const docRef = doc(db, "blogs", id);
-    await updateDoc(docRef, {
-      views: increment(1),
-    });
+    try {
+      const docRef = doc(db, "blogs", id);
+      await updateDoc(docRef, {
+        views: increment(1),
+      });
+      
+    } catch (error)
+     {
+      console.log("please try again")
+    }
+
   };
 
   if (loading) {
@@ -78,6 +84,7 @@ const Detail = ({ setActive, user }) => {
   }
 
   const getBlogDetail = async () => {
+    try{
     setLoading(true);
     const blogRef = collection(db, "blogs");
     const docRef = doc(db, "blogs", id);
@@ -112,8 +119,14 @@ const Detail = ({ setActive, user }) => {
       setLikes(blogData.likes ? blogData.likes : []);
     }
 
+
+    }
+    catch(error){
+      console.error(error)
+    }
     setActive(null);
     setLoading(false);
+
   };
 
   const handleComment = async (e) => {
